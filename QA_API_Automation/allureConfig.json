@@ -1,0 +1,10 @@
+﻿{
+    "allure": {
+        "directory": "allure-results",
+      "links": [
+        "https://jira.atlassian.net/browse/{issue}",
+        "https://testrail.com/#/tests/{tms}"
+      ]
+       
+    }
+}

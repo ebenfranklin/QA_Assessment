@@ -1,0 +1,41 @@
+## Project Files
+*/packages/
+.idea/
+.vscode/
+
+## Build Output
+bin/
+obj/
+**/bin/
+**/obj/
+**/bin/Debug/
+**/bin/Release/
+
+## Visual Studio Files
+.vs/
+*.user
+*.suo
+
+## Debug and Release artifacts
+*.dll
+*.exe
+*.pdb
+*.data
+*.dat
+*.tmp
+*.bim
+*.pref
+*.cd
+*.iml
+tags.txt
+
+## Ignore Allure Reports
+Allure-Reports/
+allure-results/
+
+## Test Results
+TestResult.xml
+
+## Ignore Images (if unnecessary in repo)
+*.jpg
+*.jpeg
