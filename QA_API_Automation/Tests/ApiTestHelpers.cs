@@ -108,7 +108,8 @@ namespace ENSEK_QA.Tests
         {
             foreach (var order in ordersJson)
             {
-                var idToken = order["order_id"];
+                var idToken =order["id"];
+
                 if (idToken != null && idToken.ToString() == orderId)
                 {
                     return true;

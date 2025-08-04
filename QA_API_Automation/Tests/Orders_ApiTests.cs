@@ -25,7 +25,7 @@ namespace ENSEK_QA.Tests
             var orderJson = ApiTestHelpers.ParseResponseBody(responseBody);
 
             // Assert - The returned order should have the correct order ID
-            orderJson["order_id"]?.ToString().Should().Be(orderId);
+            orderJson["id"]?.ToString().Should().Be(orderId);
         }
 
         [TestCase("122233344ffgggfdddd", 500, Category = "TC-L003", Description = "Invalid Order Id . Check Get order by ID endpoint returns error")]
