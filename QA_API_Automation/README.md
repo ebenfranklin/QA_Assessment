@@ -31,7 +31,7 @@ This project is an automated API test suite for the ENSEK Energy test platform, 
  - Install Allure Commandline if not already installed:
  - Navigate to the allure results directory:
 
-   ENSEK_QA\bin\Debug\net8.0> allure serve
+   QA_API_Automation\bin\Debug\net8.0> allure serve
 
 ## Project Structure
 - `Tests/` - Contains all test classes and helpers
