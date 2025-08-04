@@ -18,43 +18,55 @@ namespace ENSEK_QA.Tests
         [TestCase(2, 5, "KWh", 200, Category = "TC-E002", Description = "Buy Nuclear and check the order Id is present in Orders list ")]
         [TestCase(3, 10, "MW", 200, Category = "TC-E003", Description = "Buy Electricity and check the order Id is present in Orders list ")]
         [TestCase(4, 10, "Litres", 200, Category = "TC-E004", Description = "Buy Oil and check the order Id is present in Orders list ")]
-        public async Task BuyEnergy_OrderShouldBePresentInOrderList(int energyTypeId, int quantityToBuy, string expectedUnitType, int expectedStatus)
+            public async Task BuyEnergy_OrderShouldBePresentInOrderList(int energyTypeId, int quantityToBuy, string expectedUnitType, int expectedStatus)
         {
             //Data reset is called in the setup method of ApiTestBase, so we can assume the initial state is reset before each test.
 
             //Arrange 
 
-            string orderId = "";  
-            
+            string orderId = "";
+
             //Act - Buy energy 
 
-            var response = await client.PutBuyEnergyAsync(energyTypeId, quantityToBuy);
+           
+                var response = await client.PutBuyEnergyAsync(energyTypeId, quantityToBuy);
 
-            //Check the response status code 
+                //Check the response status code 
 
-            response.StatusCode.Should().Be(expectedStatus);
-            var responseBody = await response.ResponseMessage.Content.ReadAsStringAsync();
-            var responseJson = ApiTestHelpers.ParseResponseBody(responseBody);
-            var actualResponseMessage = responseJson["message"].ToString();
+                response.StatusCode.Should().Be(expectedStatus);
+                var responseBody = await response.ResponseMessage.Content.ReadAsStringAsync();
+                var responseJson = ApiTestHelpers.ParseResponseBody(responseBody);
+                var actualResponseMessage = responseJson["message"].ToString();
 
-            //Extract the order ID from the response
+            if (energyTypeId != 2)
+            {
 
-            orderId = ApiTestHelpers.ExtractOrderIdFromMessage(actualResponseMessage);
-            orderId.Should().NotBeNullOrEmpty("Order id should not be null or empty");
-         
-            //Get all previous orders
+                //Extract the order ID from the response
 
-            var getAllOrdersResponse = await client.GetPreviousOrdersAsync();
-            getAllOrdersResponse.StatusCode.Should().Be(expectedStatus);
+                orderId = ApiTestHelpers.ExtractOrderIdFromMessage(actualResponseMessage);
+                orderId.Should().NotBeNullOrEmpty("Order id should not be null or empty");
 
-            //Assert- the order ID is present in the GetallOrders response
+                //Get all previous orders
 
-            var getAllOrdersResponseBody = await getAllOrdersResponse.ResponseMessage.Content.ReadAsStringAsync();
-            var json = JArray.Parse(getAllOrdersResponseBody);
+                var getAllOrdersResponse = await client.GetPreviousOrdersAsync();
+                getAllOrdersResponse.StatusCode.Should().Be(expectedStatus);
 
-            bool orderPresentflag = ApiTestHelpers.IsOrderIdPresent(json, orderId);
-            orderPresentflag.Should().BeTrue($"Order id {orderId} should be present in orders list");
-            
+                //Assert- the order ID is present in the GetallOrders response
+
+                var getAllOrdersResponseBody = await getAllOrdersResponse.ResponseMessage.Content.ReadAsStringAsync();
+                var json = JArray.Parse(getAllOrdersResponseBody);
+
+                bool orderPresentflag = ApiTestHelpers.IsOrderIdPresent(json, orderId);
+                orderPresentflag.Should().BeTrue($"Order id {orderId} should be present in orders list");
+
+            }
+            else
+            {
+                //For Nuclear, we expect no purchase to be made, so we check the response message directly
+               
+                actualResponseMessage.Should().Contain("There is no nuclear fuel to purchase!");
+            }
+
         }
 
 
